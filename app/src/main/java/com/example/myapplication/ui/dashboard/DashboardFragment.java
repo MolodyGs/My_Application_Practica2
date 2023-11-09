@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -62,19 +63,19 @@ public class DashboardFragment extends Fragment {
 
     @SuppressLint("SetTextI18n")
     public void SaveData(View view) {
-        if(txt_name.getText().toString().equals("") || txt_rut.getText().toString().equals("") || txt_age.getText().toString().equals(""))
+        if(txt_name.getText().toString().isEmpty() || txt_rut.getText().toString().isEmpty() || txt_age.getText().toString().isEmpty())
         {
-            txt_error.setText("Se deben completar todos los campos");
+            Toast.makeText(getContext(), "Se deben completar todos los campos", Toast.LENGTH_LONG).show();
             return;
         }
         SharedPreferences preferences = getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
 
         if(txt_rut.getText().toString().equals(preferences.getString(txt_rut.getText().toString() + "1", "")))
         {
-            txt_error.setText("El rut ingresado ya existe");
+            Toast.makeText(getContext(), "El rut ingresado ya existe", Toast.LENGTH_LONG).show();
             return;
         }
-        System.out.println("Usuario Guardado Correctamente");
+        Toast.makeText(getContext(), "Usuario Agregado Correctamente", Toast.LENGTH_LONG).show();
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(txt_rut.getText().toString() + "1", txt_rut.getText().toString());
         editor.putString(txt_rut.getText().toString() + "2", txt_name.getText().toString());
@@ -90,21 +91,21 @@ public class DashboardFragment extends Fragment {
     public void FindUser(View view)
     {
         String strRut = txt_rut.getText().toString();
-        if(strRut.equals(""))
+        if(strRut.isEmpty())
         {
-            txt_error.setText("Debe ingresar un rut para buscar");
+            Toast.makeText(getContext(), "Debe ingresar un rut para buscar", Toast.LENGTH_LONG).show();
             return;
         }
 
         SharedPreferences preferences = getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
 
         if(preferences.getString(strRut + "1", "").equals("")){
-            txt_error.setText("No existe un usuario registrado con ese rut");
+            Toast.makeText(getContext(), "El rut ingresado no está registrado", Toast.LENGTH_LONG).show();
             return;
         }else {
             txt_name.setText(preferences.getString(strRut + "2", ""));
             txt_age.setText(preferences.getString(strRut + "3", ""));
-            txt_error.setText("El usuario fue encontrado exitosamente");
+            Toast.makeText(getContext(), "Usuario Encontrado exitosamente", Toast.LENGTH_LONG).show();
         }
     }
     @Override
