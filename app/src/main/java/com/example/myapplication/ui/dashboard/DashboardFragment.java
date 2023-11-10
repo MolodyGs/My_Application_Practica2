@@ -65,17 +65,17 @@ public class DashboardFragment extends Fragment {
     public void SaveData(View view) {
         if(txt_name.getText().toString().isEmpty() || txt_rut.getText().toString().isEmpty() || txt_age.getText().toString().isEmpty())
         {
-            Toast.makeText(getContext(), "Se deben completar todos los campos", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "Se deben completar todos los campos", Toast.LENGTH_SHORT).show();
             return;
         }
         SharedPreferences preferences = getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
 
         if(txt_rut.getText().toString().equals(preferences.getString(txt_rut.getText().toString() + "1", "")))
         {
-            Toast.makeText(getContext(), "El rut ingresado ya existe", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "El rut ingresado ya existe", Toast.LENGTH_SHORT).show();
             return;
         }
-        Toast.makeText(getContext(), "Usuario Agregado Correctamente", Toast.LENGTH_LONG).show();
+        Toast.makeText(getContext(), "Usuario Agregado Correctamente", Toast.LENGTH_SHORT).show();
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(txt_rut.getText().toString() + "1", txt_rut.getText().toString());
         editor.putString(txt_rut.getText().toString() + "2", txt_name.getText().toString());
@@ -93,19 +93,19 @@ public class DashboardFragment extends Fragment {
         String strRut = txt_rut.getText().toString();
         if(strRut.isEmpty())
         {
-            Toast.makeText(getContext(), "Debe ingresar un rut para buscar", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "Debe ingresar un rut para buscar", Toast.LENGTH_SHORT).show();
             return;
         }
 
         SharedPreferences preferences = getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
 
         if(preferences.getString(strRut + "1", "").equals("")){
-            Toast.makeText(getContext(), "El rut ingresado no está registrado", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "El rut ingresado no está registrado", Toast.LENGTH_SHORT).show();
             return;
         }else {
             txt_name.setText(preferences.getString(strRut + "2", ""));
             txt_age.setText(preferences.getString(strRut + "3", ""));
-            Toast.makeText(getContext(), "Usuario Encontrado exitosamente", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "Usuario Encontrado exitosamente", Toast.LENGTH_SHORT).show();
         }
     }
     @Override
