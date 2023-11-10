@@ -69,6 +69,7 @@ public class HomeFragment extends Fragment {
         return root;
     }
 
+    //Agrega una consola a un listView con su nombre y descripción.
     public void saveConsole(View view)
     {
         if(txtName.getText().toString().isEmpty() || txtDes.getText().toString().isEmpty())

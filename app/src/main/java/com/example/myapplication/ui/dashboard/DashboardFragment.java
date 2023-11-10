@@ -23,8 +23,7 @@ public class DashboardFragment extends Fragment {
 
     private FragmentDashboardBinding binding;
 
-    private EditText txt_name, txt_rut, txt_age;
-    private TextView txt_error;
+    private EditText txtname, txtrut, txtage;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -49,48 +48,47 @@ public class DashboardFragment extends Fragment {
             public void onClick(View v) {FindUser(view);}
         });
 
-        txt_name = (EditText) binding.txtName;
-        txt_rut = (EditText) binding.txtRut;
-        txt_age = (EditText) binding.txtAge;
-        txt_error = (TextView) binding.txtError;
-
-        txt_error.setText("");
+        txtname = (EditText) binding.txtName;
+        txtrut = (EditText) binding.txtRut;
+        txtage = (EditText) binding.txtAge;
 
         final TextView textView = binding.textDashboard;
         dashboardViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 
+    //Guarda la información de un usuario: Nombre, rut y edad, utilizando SharedPreferences.
     @SuppressLint("SetTextI18n")
     public void SaveData(View view) {
-        if(txt_name.getText().toString().isEmpty() || txt_rut.getText().toString().isEmpty() || txt_age.getText().toString().isEmpty())
+        if(txtname.getText().toString().isEmpty() || txtrut.getText().toString().isEmpty() || txtage.getText().toString().isEmpty())
         {
             Toast.makeText(getContext(), "Se deben completar todos los campos", Toast.LENGTH_SHORT).show();
             return;
         }
         SharedPreferences preferences = getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
 
-        if(txt_rut.getText().toString().equals(preferences.getString(txt_rut.getText().toString() + "1", "")))
+        if(txtrut.getText().toString().equals(preferences.getString(txtrut.getText().toString() + "1", "")))
         {
             Toast.makeText(getContext(), "El rut ingresado ya existe", Toast.LENGTH_SHORT).show();
             return;
         }
         Toast.makeText(getContext(), "Usuario Agregado Correctamente", Toast.LENGTH_SHORT).show();
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(txt_rut.getText().toString() + "1", txt_rut.getText().toString());
-        editor.putString(txt_rut.getText().toString() + "2", txt_name.getText().toString());
-        editor.putString(txt_rut.getText().toString() + "3", txt_age.getText().toString());
+        editor.putString(txtrut.getText().toString() + "1", txtrut.getText().toString());
+        editor.putString(txtrut.getText().toString() + "2", txtname.getText().toString());
+        editor.putString(txtrut.getText().toString() + "3", txtage.getText().toString());
 
-        txt_name.setText("");
-        txt_age.setText("");
+        txtname.setText("");
+        txtage.setText("");
 
         editor.apply();
     }
 
+    //Busca a un usuario con respecto a su Rut, si lo encuentra despliega su información.
     @SuppressLint("SetTextI18n")
     public void FindUser(View view)
     {
-        String strRut = txt_rut.getText().toString();
+        String strRut = txtrut.getText().toString();
         if(strRut.isEmpty())
         {
             Toast.makeText(getContext(), "Debe ingresar un rut para buscar", Toast.LENGTH_SHORT).show();
@@ -103,8 +101,8 @@ public class DashboardFragment extends Fragment {
             Toast.makeText(getContext(), "El rut ingresado no está registrado", Toast.LENGTH_SHORT).show();
             return;
         }else {
-            txt_name.setText(preferences.getString(strRut + "2", ""));
-            txt_age.setText(preferences.getString(strRut + "3", ""));
+            txtname.setText(preferences.getString(strRut + "2", ""));
+            txtage.setText(preferences.getString(strRut + "3", ""));
             Toast.makeText(getContext(), "Usuario Encontrado exitosamente", Toast.LENGTH_SHORT).show();
         }
     }
